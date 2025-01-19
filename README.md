@@ -6,13 +6,13 @@ This repository provides a pre-configured Docker image for setting up an Android
 
 ### Build the image
 ```
-docker build --build-arg GIT_USERNAME="Your Name" --build-arg GIT_EMAIL="your.email@example.com" -t aosp-builder .
+docker build -t aosp-builder .
 ```
 
 ### Start the container
 ```
 cd ~/path_to_your_build_directory
-docker run --name aosp-builder --privileged --device /dev/loop-control -v .:/home/builduser -it aosp-builder
+docker run --name aosp-builder --privileged --device /dev/loop-control -v .:/home/builduser -e GIT_USERNAME="John Doe" -e GIT_EMAIL="john@example.com" -it aosp-builder
 ```
 
 Note: The current directory (.) is mapped to /home/builduser inside the container. This allows you to manage your Android source code directly from the host system while the build runs in the container.

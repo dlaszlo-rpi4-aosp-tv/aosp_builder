@@ -2,9 +2,6 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG GIT_USERNAME="Default User"
-ARG GIT_EMAIL="default@example.com"
-
 RUN apt update -y && \
     apt upgrade -y && \
     apt install -y sudo vim curl wget && \
@@ -19,9 +16,11 @@ RUN apt update -y && \
     echo "builduser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER builduser
-
-RUN git config --global user.name "${GIT_USERNAME}" && \
-    git config --global user.email "${GIT_EMAIL}"
-
 WORKDIR /home/builduser
+
+ARG GIT_USERNAME="Default User"
+ARG GIT_EMAIL="default@example.com"
+COPY --chmod=0755 entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]
 
